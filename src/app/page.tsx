@@ -1,4 +1,4 @@
-import PrevNextPagination from '@/components/PrevNextPagination';
+import NumberPagination from '@/components/NumberPagination';
 import { getGames } from '@/lib/api';
 
 type PageProps = {
@@ -17,7 +17,7 @@ export default async function Home({ searchParams }: PageProps) {
     data, 
     metadata: { 
       pagination: { 
-        previousPage, nextPage 
+        previousPage, nextPage, currentPage, lastPage
       }
     } 
   } = await getGames(page, limit);
@@ -47,7 +47,7 @@ export default async function Home({ searchParams }: PageProps) {
 
       </ul>
 
-      <PrevNextPagination limit={limit} nextPage={nextPage} previousPage={previousPage} />
+      <NumberPagination currentPage={currentPage} lastPage={lastPage} limit={limit} />
 
     </div>
   )
