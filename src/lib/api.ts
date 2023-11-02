@@ -24,8 +24,8 @@ export const getGames = (page: number = 1, limit: number = 10): Promise<Response
     return fetch(url + params).then(async (response) => {
         const total = Number(response.headers.get('X-Total-Count'));
         const totalPages = Math.ceil(total / limit);
-        const previousPage = page <= 1 ? 1 : page - 1;
-        const nextPage = page >= totalPages ? totalPages : page + 1;
+        const previousPage = page === 1 ? 1 : page - 1;
+        const nextPage = page === totalPages ? totalPages : page + 1;
 
 
         const data = await response.json();

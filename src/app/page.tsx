@@ -1,5 +1,5 @@
+import PrevNextPagination from '@/components/PrevNextPagination';
 import { getGames } from '@/lib/api';
-import Link from "next/link";
 
 type PageProps = {
   searchParams?: { 
@@ -47,20 +47,7 @@ export default async function Home({ searchParams }: PageProps) {
 
       </ul>
 
-      <div className="my-4 flex gap-4 w-full justify-end">
-          <Link
-            className="p-2 border border-slate-600 rounded-md"
-            href={`?page=${ previousPage }&limit=${limit}`}
-          >
-            Previous
-          </Link>
-          <Link
-            className="p-2 border border-slate-600 rounded-md"
-            href={`?page=${ nextPage }&limit=${limit}`}
-          >
-            Next
-          </Link>
-      </div>
+      <PrevNextPagination limit={limit} nextPage={nextPage} previousPage={previousPage} />
 
     </div>
   )
