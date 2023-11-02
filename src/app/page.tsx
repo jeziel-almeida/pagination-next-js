@@ -13,8 +13,14 @@ export default async function Home({ searchParams }: PageProps) {
   const page = Number(searchParams?.page) || 1;
   const limit = Number(searchParams?.limit) || 10;
 
-  const games = await getGames(page, limit);
-  console.log("🚀 ~ file: page.tsx:6 ~ Home ~ games:", games)
+  const { 
+    data, 
+    metadata: { 
+      pagination: { 
+        previousPage, nextPage 
+      }
+    } 
+  } = await getGames(page, limit);
 
   return (
     <div className="container mx-auto my-8">
@@ -29,7 +35,7 @@ export default async function Home({ searchParams }: PageProps) {
           </div>
         </li>
 
-        {games ? games.map((item, idx) => (
+        {data ? data.map((item, idx) => (
           <li key={item.Game + idx} className="border-b bg-white last:border-b-0 dark:border-gray-700">
             <div className="flex">
               <div className="w-6/12 px-6 py-3">{item.Game}</div>
@@ -41,16 +47,16 @@ export default async function Home({ searchParams }: PageProps) {
 
       </ul>
 
-      <div className="my-4 flex gap-4">
+      <div className="my-4 flex gap-4 w-full justify-end">
           <Link
             className="p-2 border border-slate-600 rounded-md"
-            href={`?page=${ page > 1 ? page - 1 : 1}&limit=${limit}`}
+            href={`?page=${ previousPage }&limit=${limit}`}
           >
             Previous
           </Link>
           <Link
             className="p-2 border border-slate-600 rounded-md"
-            href={`?page=${ page + 1}&limit=${limit}`}
+            href={`?page=${ nextPage }&limit=${limit}`}
           >
             Next
           </Link>
