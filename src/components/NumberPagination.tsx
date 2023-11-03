@@ -15,9 +15,15 @@ const generatePagination = (current: number, total: number) => {
     let start = Math.max(current - sides, 1);
     let end = Math.min(current + sides, total);
 
+    if(start > 1) pages.push({ key: 'first', number: 1, label: 'First' })
+    if(current > 3) pages.push({ key: 'first-elipsis', number: '#', label: '...' })
+
     for(let i = start; i <= end; i++) {
-        pages.push(i);
+        pages.push({ key: `page-${i}`, number: i, label: i });
     }
+
+    if(end < total - 1) pages.push({ key: 'last-elipsis', number: '#', label: '...' })
+    if(end < total) pages.push({ key: 'last', number: total, label: 'Last' })
 
     return pages;
 
@@ -34,16 +40,16 @@ const NumberPagination = ({ currentPage, lastPage, limit }: NumberPaginationProp
             <ul className='w-full flex justify-center h-10 -space-x-px text-base'>
                 {pages.map((page) => {     
                         return (
-                            <li key={page}>
+                            <li key={page.key}>
                                 <Link
                                     className={`${baseStyles} ${
-                                        currentPage === page
+                                        currentPage === page.number
                                             ? 'text-gray-900 dark:text-indigo-400'
                                             : 'text-gray-500 dark:text-gray-400'
                                     }`}
-                                    href={`?page=${page}&limit=${limit}`}
+                                    href={`?page=${page.number}&limit=${limit}`}
                                 >
-                                    {page}
+                                    {page.label}
                                 </Link>
                             </li>
                         )
